@@ -1,0 +1,72 @@
+.contact {
+    background-color: #121418;
+}
+
+.contact h2 {
+    padding: 26px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.082);
+}
+
+.contact ul {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.contact ul li {
+    background-color: #2023298e;
+    padding: 18px;
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+    transition: 0.7s;
+}
+
+.contact ul li:hover {
+    background-color: rgba(74, 79, 87, 0.557);
+    transition: 0.7s;
+    border-radius: 6px;
+}
+
+.contact_super {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.35rem 3.5rem;
+    background-color: #121418;
+    border-left: 1px solid rgba(255, 255, 255, 0.082);
+}
+
+.contact_super h2 {
+    font-size: 23px;
+    color: white;
+}
+
+.contact_super p {
+    background-color: rgb(39, 185, 39);
+    border-radius: 6px;
+    margin-top: 0.4rem;
+    padding: 0 5px;
+    width: 11%;
+    color: white;
+    cursor: pointer;
+}
+
+.input_chat {
+    display: flex;
+    background-color: #121418;
+    border-left: 1px solid rgba(255, 255, 255, 0.082);
+}
+
+.input_chat input {
+    background-color: #202329;
+    padding: 0.6rem;
+    padding-left: 1rem;
+}
+
+.input_chat button {
+    background-color: #2b3cfd;
+}
+
+.messages {
+    background-color: #202329;
+}
