@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from '../styles/login_style.module.css';
+import styles from '../styles/register_style.module.css';
 
-const Login = () => {
+const Register = () => {
   return (
     <div className={`${styles.container}`}>
 
@@ -10,7 +10,7 @@ const Login = () => {
       </div>
 
       <div className={`${styles.login} p-4 rounded`}>
-        <h2 className="mb-2 text-left text-white">Login</h2>
+        <h2 className="mb-2 text-left text-white">Register</h2>
 
         <form action="" method="post">
           <div className="mb-4">
@@ -19,7 +19,27 @@ const Login = () => {
               name="username"
               id="username"
               className="w-full px-4 py-2 rounded-md focus:outline-none"
-              placeholder="Username"
+              placeholder="Enter your username"
+            />
+          </div>
+
+          <div className="mb-4">
+            <input
+              type="text"
+              name="username"
+              id="username"
+              className="w-full px-4 py-2 rounded-md focus:outline-none"
+              placeholder="Enter your name"
+            />
+          </div>
+
+          <div className="mb-4">
+            <input
+              type="text"
+              name="company"
+              id="company"
+              className="w-full px-4 py-2 rounded-md focus:outline-none"
+              placeholder="Enter your company"
             />
           </div>
 
@@ -29,26 +49,17 @@ const Login = () => {
               name="password"
               id="password"
               className="w-full px-4 py-2 rounded-md focus:outline-none"
-              placeholder="Senha"
+              placeholder="Enter your password"
             />
           </div>
 
           <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
-            Entrar
+            Register
           </button>
         </form>
       </div>
-
-      <div className={`${styles.footer} mt-12`}>
-        <div className={`${styles.register} flex justify-center`}>
-          <p className='text-white'>
-          Don't have a registration?<a href="/register" className="text-blue-500"> Register</a>
-          </p>
-        </div>
-      </div>
-
     </div>
   );
 };
 
-export default Login;
+export default Register;
