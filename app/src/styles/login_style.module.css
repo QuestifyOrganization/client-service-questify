@@ -2,12 +2,14 @@ body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
     color: #000;
-    background-color: #FFFFFF; 
+    background-color: #111213; 
 }
 
 .container {
     display: grid;
     grid-template-rows: 1fr 0.5fr 1fr;
+    width: 100vw;
+    height: 100vh;
 }
 
 .flex {
@@ -20,11 +22,11 @@ body {
 }
 
 form div input {
-    background-color: #F2F2F7;
+    background-color: #202329;
 }
 
 .button_login {
-    background-color: #0F0F0F !important;
+    background-color: #2b3cfd;
     color: white;
 }
 

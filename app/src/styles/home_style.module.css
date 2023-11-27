@@ -1,6 +1,92 @@
+* {
+  overflow: hidden;
+}
+
 .background {
   background-image: url('../images/background.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  animation: backgroundAnimation 1.5s ease-in-out;
+}
+
+.background header {
+  padding: 30px 40px 0 40px;
+}
+
+.button {
+  width: 8%;
+  padding: 10px;
+  font-size: 15px;
+  transition: 1s;
+}
+
+.button:hover {
+  background-color: rgb(169, 176, 255);
+  width: 10%;
+  transition: 1s;
+}
+
+.container {
+  margin-left: 5%;
+}
+
+.container div h1 {
+  font-size: 60px;
+  font-weight: 1000;
+  color: white;
+  animation: containerAnimation 2s ease-in-out;
+}
+
+.container div p {
+  opacity: 0.7;
+  font-size: 20px;
+  position: relative;
+  bottom: 15px;
+  animation: containerAnimation 1.5s ease-in-out;
+}
+
+.container div button {
+  width: 20%;
+  background-color: #2b3cfd;
+  position: relative;
+  bottom: 15px;
+  transition: 1s;
+  animation: buttonAnimation 3s ease-in-out;
+}
+
+.container div button:hover {
+  width: 40%;
+  background-color: rgb(169, 176, 255);
+  color: black;
+  transition: 1s;
+}
+
+@keyframes containerAnimation {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes buttonAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes backgroundAnimation {
+  from {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(1);
+  }
 }

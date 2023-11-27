@@ -10,7 +10,7 @@ const Login = () => {
       </div>
 
       <div className={`${styles.login} p-4 rounded`}>
-        <h2 className="mb-2 text-left">Login</h2>
+        <h2 className="mb-2 text-left text-white">Login</h2>
 
         <form action="" method="post">
           <div className="mb-4">
@@ -47,7 +47,7 @@ const Login = () => {
 
       <div className={`${styles.footer} mt-12`}>
         <div className={`${styles.register} flex justify-center`}>
-          <p>
+          <p className='text-white'>
             Não tem cadastro? <a href="#" className="text-blue-500">Registre-se</a>
           </p>
         </div>

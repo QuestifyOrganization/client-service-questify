@@ -1,27 +1,27 @@
 import React from 'react';
-import '../styles/home_style.module.css'
+import styles from '../styles/home_style.module.css';
 
 const Home = () => {
-    return (
-        <div className="background bg-cover bg-center h-screen flex flex-col">
+  return (
+    <div className={`${styles.background} bg-cover bg-center h-screen flex flex-col`}>
+      <header className="flex justify-between items-center p-4">
+        <div className="text-white text-2xl font-bold">Your Logo</div>
+        <button className={`${styles.button} bg-white text-black px-4 py-2 rounded`}>Questify</button>
+      </header>
 
-        <header className="flex justify-between items-center p-4">
-
-            <div className="text-white text-2xl font-bold">Your Logo</div>
-
-            <button className="bg-blue-500 text-white px-4 py-2 rounded">Entrar no WorkChat</button>
-        </header>
-
-        <div className="flex-grow flex items-center justify-center">
-            <div className="text-center">
-            <h1 className="text-4xl font-bold mb-4">Seja bem-vindo ao WorkChat</h1>
-            <p className="text-gray-500 mb-6">Conecte-se com colegas de trabalho de forma fácil e eficiente.</p>
-            <button className="bg-green-500 text-white px-6 py-3 rounded">Cadastrar-se</button>
-            </div>
+      <div className={`${styles.container} flex-grow flex items-center`}>
+        <div className="text-left">
+          <h1 className="font-bold">The Future of workchat...</h1>
+          <p className="text-white mb-2">Connect with coworkers easily and efficiently.</p>
+          <button className="text-white px-6 py-3 rounded">Sign-up</button>
         </div>
-
-        </div>
-    );
+      </div>
+      
+      <div className='footer'>
+            
+      </div>
+    </div>
+  );
 };
 
 export default Home;
