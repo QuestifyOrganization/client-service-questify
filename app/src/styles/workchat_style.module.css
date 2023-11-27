@@ -1,5 +1,7 @@
 .contact {
     background-color: #121418;
+    height: 100vh;
+    flex-direction: column;
 }
 
 .contact h2 {
@@ -13,9 +15,14 @@
     cursor: pointer;
 }
 
+.contact ul input { 
+    background-color: #2023298e;
+    padding: 0.7rem 2rem;
+}
+
 .contact ul li {
     background-color: #2023298e;
-    padding: 18px;
+    padding: 1.2rem;
     margin-bottom: 0.5rem;
     border-radius: 6px;
     transition: 0.7s;
@@ -29,11 +36,30 @@
 
 .contact_super {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.35rem 3.5rem;
+    flex-direction: row;
+    padding: 1.35rem 2.5rem;
     background-color: #121418;
     border-left: 1px solid rgba(255, 255, 255, 0.082);
+}
+
+.contact_super span:first-child {
+    display: none;
+    color: white;
+    padding: 0.5rem;
+    font-size: 2rem;
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+.contact_super span:last-child {
+    color: white;
+    padding: 0.5rem;
+    font-size: 2rem;
+    cursor: pointer;
+    position: absolute;
+    margin-top: 0.2rem;
+    left: 95vw;
+    align-items: flex-end;
 }
 
 .contact_super h2 {
@@ -46,7 +72,7 @@
     border-radius: 6px;
     margin-top: 0.4rem;
     padding: 0 5px;
-    width: 11%;
+    width: 10rem;
     color: white;
     cursor: pointer;
 }
@@ -70,4 +96,53 @@
 
 .messages {
     background-color: #202329;
+    cursor: pointer;
+}
+
+@media (max-width: 687px) {
+    .contact {
+        display: none;
+        width: 15rem;
+        height: 100vh;
+        flex-direction: column;
+        position: absolute;
+    }  
+
+    .contact_super {
+        align-items: center;
+        padding: 1.35rem 1.5rem;
+    }
+
+    .contact_super span:first-child {
+        display: block;
+    }
+
+    .contact_super span:last-child {
+        display: none;
+    }
+}
+
+
+@media (min-width: 1024px) and (max-width: 1100px) {
+    .contact {
+        width: 15rem;
+    }
+
+    .contact_super span:last-child {
+        left: 92vw;
+        font-size: 1.7rem;
+        margin-top: 0.4rem;
+    }
+}
+
+@media (min-width: 688px) and (max-width: 1023px) {
+    .contact {
+        width: 14rem;
+    }
+
+    .contact_super span:last-child {
+        left: 91vw;
+        font-size: 1.7rem;
+        margin-top: 0.4rem;
+    }
 }
