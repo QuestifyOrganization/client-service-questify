@@ -74,9 +74,20 @@ const Workchat = () => {
 
         <div onClick={toggleMenu} className={`${styles.messages} flex-1 overflow-y-auto p-4`}>
           <ul>
-            {messages.map((message, index) => (
+          <li className={`${styles.message_chat} flex items-start mb-2`}>
+            <img
+              src={perfil}
+              alt="Imagem do remetente"
+              className="w-8 h-8 rounded-full mr-2"
+            />
+            <div className="text-white rounded-md">
+              <p className="font-bold">Rafael</p>
+              <p>dfusniudfyusdbfuybsdfjfdiosjfiodsjfiosjdfiojs</p>
+            </div>
+          </li>
+            {/* {messages.map((message, index) => (
               <li key={index}>{`${message.senderName}: ${message.messageText}`}</li>
-            ))}
+            ))} */}
           </ul>
         </div>
 
