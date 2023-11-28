@@ -4,7 +4,7 @@ import perfil from '../images/perfil.jpg';
 import toggleMenu from '../js/menu_toogle';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:3004', {
+const socket = io(`${process.env.REACT_APP_API_CHAT_BASE_URL}`, {
   auth: {
     authToken: localStorage.getItem('authToken'),
   },
@@ -18,30 +18,39 @@ const Workchat = () => {
   const [foundMessages, setFoundMessages] = useState([]); 
   const [currentUser, setCurrentUser] = useState(null);
   const [myUser, setMyUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
 
     socket.on('setMyUser', (user) => {
       setMyUser(user);
+      setIsLoading(false);
     });
 
     socket.on('message', (data) => {
       setMessages((prevMessages) => [...prevMessages, data]);
+      if (!searchTerm){
+        socket.emit('findTalkedChatUsers')
+      }
     });
 
     socket.on('findChatUsers', (users) => {
       setFoundUsers(users); 
     });
+  
+    socket.on('findTalkedChatUsers', (users) => {
+      setFoundUsers(users); 
+    });
 
     socket.on('findMessages', (messages) => {
       setFoundMessages(messages); 
-      console.log(messages);
       setMessages(messages); 
     });
 
     return () => {
       socket.off('message');
       socket.off('findChatUsers'); 
+      socket.off('findTalkedChatUsers'); 
       socket.off('findMessages');
       socket.off('setMyUser');
     };
@@ -61,24 +70,28 @@ const Workchat = () => {
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-  };
-
-  const handleSearchSubmit = (e) => {
-    if (e.key === 'Enter') {
-      socket.emit('findChatUsers', { name: searchTerm });
-    }
+    socket.emit('findChatUsers', { name: searchTerm });
   };
 
   const openChat = (user) => {
     if (!currentUser || user._id !== currentUser._id) {
       socket.emit('findMessages', { recipientContentType:'ChatUser', recipientObjectId: user._id })
       setMessages([]); 
+      socket.emit('findTalkedChatUsers');
+      setSearchTerm('');
     }
     setCurrentUser(user);
   };
   
+  const LoadingScreen = () => (
+    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="text-white">Loading...</div>
+    </div>
+  );
+
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100"> 
+      {isLoading && <LoadingScreen />}
       <div className={`${styles.contact} w-1/6 bg-gray-800 text-white p-4`}>
         <h2 className="text-2xl font-bold mb-4">Contacts</h2>
         <ul>
@@ -87,7 +100,6 @@ const Workchat = () => {
             placeholder="Search..."
             value={searchTerm}
             onChange={handleSearchChange}
-            onKeyDown={handleSearchSubmit}
             className="w-full p-2 mb-4 rounded text-white focus:outline-none"
           />
           {foundUsers.map((user) => (
@@ -108,41 +120,39 @@ const Workchat = () => {
           <h2 className="text-xl font-bold">{currentUser ? currentUser.name : "Selecione um contato"}</h2>
           <p>{currentUser && currentUser.isOnline ? "Online" : "Offline"}</p>
         </div>
-        <span onClick={() => (window.location.href = "/")} className="material-symbols-outlined">
-          close
+        <span onClick={() => (window.location.href = "/logout")} className="material-symbols-outlined">
+          logout
         </span>
       </div>
-
-      <div onClick={toggleMenu} className={`${styles.messages} flex-1 overflow-y-auto p-4`}>
-        <ul>
-          {messages.map((msg, index) => (
-            msg.senderId === myUser._id ?
-              <li key={index} className={`${styles.message_chat} flex justify-end items-start mb-2`}>
-                <div className="text-white rounded-md">
-                  <p className="font-bold">Me</p>
-                  <p>{msg.messageText}</p>
-                </div>
-                <img
-                  src={perfil}
-                  alt="Imagem do remetente"
-                  className="w-8 h-8 rounded-full ml-2"
-                />
-              </li> :
-              <li key={index} className={`${styles.message_chat} flex items-start mb-2`}>
-                <img
-                  src={perfil}
-                  alt="Imagem do remetente"
-                  className="w-8 h-8 rounded-full mr-2"
-                />
-                <div className="text-white rounded-md">
-                  <p className="font-bold">{msg.senderName}</p>
-                  <p>{msg.messageText}</p>
-                </div>
-              </li> 
-          ))}
-        </ul>
-      </div>
-
+        <div onClick={toggleMenu} className={`${styles.messages} flex-1 overflow-y-auto p-4`}>
+          <ul>
+            {messages.map((msg, index) => (
+              msg.senderId === myUser._id ?
+                <li key={index} className={`${styles.message_chat} flex justify-end items-start mb-2`}>
+                  <div className="text-white rounded-md">
+                    <p className="flex justify-end" >{msg.messageText}</p>
+                    <p className="text-xs text-gray-500 opacity-75">{new Date(msg.sendDate).toLocaleString()}</p>
+                  </div>
+                  <img
+                    src={perfil}
+                    alt="Imagem do remetente"
+                    className="w-8 h-8 rounded-full ml-2"
+                  />
+                </li> :
+                <li key={index} className={`${styles.message_chat} flex items-start mb-2`}>
+                  <img
+                    src={perfil}
+                    alt="Imagem do remetente"
+                    className="w-8 h-8 rounded-full mr-2"
+                  />
+                  <div className="text-white rounded-md">
+                    <p>{msg.messageText}</p>
+                    <p className="text-xs text-gray-500 opacity-75">{new Date(msg.sendDate).toLocaleString()}</p>
+                  </div>
+                </li> 
+            ))}
+          </ul>
+        </div>
         <div className={`${styles.input_chat} bg-white p-4`}>
           <input
             type="text"

@@ -14,7 +14,7 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://0.0.0.0:3001/api/auth/sign-in', {
+      const response = await axios.post(`${process.env.REACT_APP_API_AUTH_BASE_URL}/api/auth/sign-in`, {
         username,
         password,
       });
@@ -34,7 +34,6 @@ const Login = () => {
       setError('Invalid credentials. Please try again.');
       setSuccessMessage('');
 
-      // Limpar a mensagem de erro após um segundo (ajuste conforme necessário)
       setTimeout(() => {
         setError('');
       }, 1500);

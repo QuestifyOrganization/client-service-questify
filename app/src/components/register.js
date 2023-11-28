@@ -23,7 +23,7 @@ const Register = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3001/api/user/create', formData);
+      const response = await axios.post(`${process.env.REACT_APP_API_AUTH_BASE_URL}/api/user/create`, formData);
 
       setSuccessMessage('Registro realizado com sucesso! Redirecionando para a página de login...');
 
