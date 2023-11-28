@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/login_style.module.css';
 import axios from 'axios';
+import logo from '../images/questify.png';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -42,9 +43,7 @@ const Login = () => {
 
   return (
     <div className={`${styles.container}`}>
-      <div className={`${styles.logo} flex justify-center mt-8`}>
-        {/* Adicione conteúdo do logo aqui */}
-      </div>
+      <img src={logo} alt="logo" className={`${styles.logo} flex justify-center`}/>
 
       <div className={`${styles.login} p-4 rounded`}>
         <h2 className="mb-2 text-left text-white">Login</h2>
