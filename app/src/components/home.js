@@ -1,11 +1,12 @@
 import React from 'react';
 import styles from '../styles/home_style.module.css';
+import logo from '../images/questify.png';
 
 const Home = () => {
   return (
     <div className={`${styles.background} bg-cover bg-center h-screen flex flex-col`}>
       <header className="flex justify-between items-center p-4">
-        <div className="text-white text-2xl font-bold">Your Logo</div>
+        <img src={logo} alt="logo" className="h-10 ml-2"/>
         <button onClick={() => (window.location.href = "/workchat")} className={`${styles.button} bg-white text-black px-4 py-2 rounded`}>Questify</button>
       </header>
 
