@@ -15,7 +15,7 @@ const Logout = () => {
     // Limpar o token ao fazer logout
     const logoutTimeout = setTimeout(() => {
       localStorage.removeItem('authToken');
-      navigate('/login');
+      navigate('/');
     }, 3000); // Tempo desejado antes de redirecionar
 
     // Limpa os timeouts ao desmontar o componente

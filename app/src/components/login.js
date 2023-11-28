@@ -21,7 +21,6 @@ const Login = () => {
       });
 
       localStorage.setItem('authToken', response.data.token);
-      console.log(localStorage)
 
       setSuccessMessage('Login successful! Redirecting to Work Chat...');
       setError('');
