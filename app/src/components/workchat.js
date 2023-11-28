@@ -31,7 +31,9 @@ const Workchat = () => {
     });
 
     socket.on('message', (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
+      if (data?.senderId == currentUser?._id || data?.senderId == myUser?._id) {
+        setMessages((prevMessages) => [...prevMessages, data]);
+      }
       if (!searchTerm){
         socket.emit('findTalkedChatUsers')
       }
@@ -108,90 +110,90 @@ const Workchat = () => {
     <div className="flex h-screen bg-gray-100"> 
       {isLoading && <LoadingScreen />}
       <div className={`${styles.contact} w-1/6 bg-gray-800 text-white p-4 flex flex-col`}>
-      <div className="flex justify-center items-center mb-4">
-        <img src={logo} alt="logo" style={{ width: '80%', height: '80%' }} className="h-10 ml-2 p-2 mt-4"/>
-      </div>
-      <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.082)' }} className="mb-4" />
-      <ul className="">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          className="w-full p-2 mb-4 rounded text-white focus:outline-none"
-        />
-        {foundUsers.map((user) => (
-          <li key={user._id} className="flex items-center cursor-pointer" onClick={() => openChat(user)}>
-            <img src={perfil} alt={user.name} className="w-8 h-8 rounded-full mr-2" />
-            {user.name}
-          </li>
-        ))}
-      </ul>
-      <div className="mt-auto">
+        <div className="flex justify-center items-center mb-4">
+          <img src={logo} alt="logo" style={{ width: '80%', height: '80%' }} className="h-10 ml-2 p-2 mt-4"/>
+        </div>
         <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.082)' }} className="mb-4" />
-        <div className='flex items-center justify-between'>
-          <div></div>
-          <div className="mb-2">
-            {myUser ? myUser.name : "Loading..."}
-          </div>
-          <span onClick={() => (window.location.href = "/logout")} className="material-symbols-outlined cursor-pointer">
-            logout
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <div className="flex-1 flex flex-col">
-      <div className={`${styles.contact_super} bg-white p-4 flex`}>
-        <span onClick={toggleMenu} className="material-symbols-outlined">
-          menu
-        </span>
-        <div className="flex items-center">
-          <h2 className="text-xl font-bold">{currentUser ? currentUser.name : "Selecione um contato"}</h2>
-          <span className={`h-3 w-3 rounded-full inline-block mr-2 ${currentUserIsOnline ? 'bg-green-500' : 'bg-red-500'}`}></span>
-        </div>
-      </div>
-      <div onClick={toggleMenu} className={`${styles.messages} flex-1 overflow-y-auto p-4`}>
-        <ul>
-          {messages.map((msg, index) => (
-            msg.senderId === myUser._id ?
-              <li key={index} className={`${styles.message_chat} flex justify-end items-start mb-2`}>
-                <div className="text-white rounded-md">
-                  <p className="flex justify-end" >{msg.messageText}</p>
-                  <p className="text-xs text-gray-500 opacity-75">{new Date(msg.sendDate).toLocaleString()}</p>
-                </div>
-                <img
-                  src={perfil}
-                  alt="Imagem do remetente"
-                  className="w-8 h-8 rounded-full ml-2"
-                />
-              </li> :
-              <li key={index} className={`${styles.message_chat} flex items-start mb-2`}>
-                <img
-                  src={perfil}
-                  alt="Imagem do remetente"
-                  className="w-8 h-8 rounded-full mr-2"
-                />
-                <div className="text-white rounded-md">
-                  <p>{msg.messageText}</p>
-                  <p className="text-xs text-gray-500 opacity-75">{new Date(msg.sendDate).toLocaleString()}</p>
-                </div>
-              </li> 
-          ))}
-        </ul>
-      </div>
-        <div className={`${styles.input_chat} bg-white p-4`}>
+        <ul className="">
           <input
             type="text"
-            placeholder="Digite sua mensagem..."
-            value={messageInput}
-            onChange={(e) => setMessageInput(e.target.value)}
-            className="w-full rounded focus:outline-none"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="w-full p-2 mb-4 rounded text-white focus:outline-none"
           />
-          <button onClick={sendMessage} className="text-white px-4 py-2 ml-2 rounded">
-            Enviar
-          </button>
+          {foundUsers.map((user) => (
+            <li key={user._id} className="flex items-center cursor-pointer" onClick={() => openChat(user)}>
+              <img src={perfil} alt={user.name} className="w-8 h-8 rounded-full mr-2" />
+              {user.name}
+            </li>
+          ))}
+        </ul>
+        <div className="mt-auto">
+          <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.082)' }} className="mb-4" />
+          <div className='flex items-center justify-between'>
+            <div></div>
+            <div className="mb-2">
+              {myUser ? myUser.name : "Loading..."}
+            </div>
+            <span onClick={() => (window.location.href = "/logout")} className="material-symbols-outlined cursor-pointer">
+              logout
+            </span>
+          </div>
         </div>
+      </div>
+
+      <div className="flex-1 flex flex-col">
+        <div className={`${styles.contact_super} bg-white p-4 flex`}>
+          <span onClick={toggleMenu} className="material-symbols-outlined">
+            menu
+          </span>
+          <div className="flex items-center">
+            <h2 className="text-xl font-bold">{currentUser ? currentUser.name : "Selecione um contato"}</h2>
+            <span className={`h-3 w-3 rounded-full inline-block mr-2 ${currentUserIsOnline ? 'bg-green-500' : 'bg-red-500'}`}></span>
+          </div>
+        </div>
+        <div onClick={toggleMenu} className={`${styles.messages} flex-1 overflow-y-auto p-4`}>
+          <ul>
+            {messages.map((msg, index) => (
+              msg.senderId === myUser._id ?
+                <li key={index} className={`${styles.message_chat} flex justify-end items-start mb-2`}>
+                  <div className="text-white rounded-md">
+                    <p className="flex justify-end" >{msg.messageText}</p>
+                    <p className="text-xs text-gray-500 opacity-75">{new Date(msg.sendDate).toLocaleString()}</p>
+                  </div>
+                  <img
+                    src={perfil}
+                    alt="Imagem do remetente"
+                    className="w-8 h-8 rounded-full ml-2"
+                  />
+                </li> :
+                <li key={index} className={`${styles.message_chat} flex items-start mb-2`}>
+                  <img
+                    src={perfil}
+                    alt="Imagem do remetente"
+                    className="w-8 h-8 rounded-full mr-2"
+                  />
+                  <div className="text-white rounded-md">
+                    <p>{msg.messageText}</p>
+                    <p className="text-xs text-gray-500 opacity-75">{new Date(msg.sendDate).toLocaleString()}</p>
+                  </div>
+                </li> 
+            ))}
+          </ul>
+        </div>
+          <div className={`${styles.input_chat} bg-white p-4`}>
+            <input
+              type="text"
+              placeholder="Digite sua mensagem..."
+              value={messageInput}
+              onChange={(e) => setMessageInput(e.target.value)}
+              className="w-full rounded focus:outline-none"
+            />
+            <button onClick={sendMessage} className="text-white px-4 py-2 ml-2 rounded">
+              Enviar
+            </button>
+          </div>
       </div>
     </div>
   );
