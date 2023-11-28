@@ -29,6 +29,7 @@ form div input {
 .button_login {
     background-color: #2b3cfd;
     color: white;
+    cursor: pointer;
 }
 
 .login {
