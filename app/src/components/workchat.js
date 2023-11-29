@@ -31,9 +31,12 @@ const Workchat = () => {
     });
 
     socket.on('message', (data) => {
+
       if (data?.senderId == currentUser?._id || data?.senderId == myUser?._id) {
         setMessages((prevMessages) => [...prevMessages, data]);
       } else if ( !myUser && data?.senderId != currentUser?._id ) {
+        setMessages((prevMessages) => [...prevMessages, data]);
+      } else {
         setMessages((prevMessages) => [...prevMessages, data]);
       }
 
