@@ -27,21 +27,21 @@ const Register = () => {
       console.log(`${process.env.REACT_APP_API_AUTH_BASE_URL}/api/user/create`)
       const response = await axios.post(`${process.env.REACT_APP_API_AUTH_BASE_URL}/api/user/create`, formData);
 
-      setSuccessMessage('Registro realizado com sucesso! Redirecionando para a página de login...');
+      setSuccessMessage('Sucess! Redirectin for login page...');
 
       setTimeout(() => {
         navigate('/login');
       }, 2000);
     } catch (error) {
       console.error('Erro ao criar usuário', error);
-      setError('Erro ao criar usuário. Por favor, tente novamente.');
+      setError('User create error. Please, try again!');
     }
   };
 
   return (
     <div className={`${styles.container}`}>
 
-      <img src={logo} alt="logo" className={`${styles.logo} flex justify-center`}/>
+      <img onClick={() => (window.location.href = "/")} src={logo} alt="logo" style={{cursor: 'pointer'}} className={`${styles.logo} flex justify-center`}/>
 
       <div className={`${styles.login} p-4 rounded`}>
         <h2 className="mb-2 text-left text-white">Register</h2>

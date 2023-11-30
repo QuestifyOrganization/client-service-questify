@@ -36,9 +36,7 @@ const Workchat = () => {
         setMessages((prevMessages) => [...prevMessages, data]);
       } else if ( !myUser && data?.senderId != currentUser?._id ) {
         setMessages((prevMessages) => [...prevMessages, data]);
-      } else {
-        setMessages((prevMessages) => [...prevMessages, data]);
-      }
+      } 
 
       if (!searchTerm){
         socket.emit('findTalkedChatUsers')
@@ -117,7 +115,7 @@ const Workchat = () => {
       {isLoading && <LoadingScreen />}
       <div className={`${styles.contact} w-1/6 bg-gray-800 text-white p-4 flex flex-col`}>
         <div className="flex justify-center items-center mb-4">
-          <img src={logo} alt="logo" style={{ width: '80%', height: '80%' }} className="h-10 ml-2 p-2 mt-4"/>
+          <img onClick={() => (window.location.href = "/")} src={logo} alt="logo" style={{ width: '80%', height: '80%', cursor: 'pointer'}} className="h-10 ml-2 p-2 mt-4"/>
         </div>
         <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.082)' }} className="mb-4" />
         <ul className="">
@@ -155,7 +153,7 @@ const Workchat = () => {
             menu
           </span>
           <div className="flex items-center">
-            <h2 className="text-xl font-bold">{currentUser ? currentUser.name : "Selecione um contato"}</h2>
+            <h2 className="text-xl font-bold">{currentUser ? currentUser.name : "Select a contact"}</h2>
             <span className={`h-3 w-3 rounded-full inline-block mr-2 ${currentUserIsOnline ? 'bg-green-500' : 'bg-red-500'}`}></span>
           </div>
         </div>
@@ -191,13 +189,13 @@ const Workchat = () => {
           <div className={`${styles.input_chat} bg-white p-4`}>
             <input
               type="text"
-              placeholder="Digite sua mensagem..."
+              placeholder="message..."
               value={messageInput}
               onChange={(e) => setMessageInput(e.target.value)}
               className="w-full rounded focus:outline-none"
             />
             <button onClick={sendMessage} className="text-white px-4 py-2 ml-2 rounded">
-              Enviar
+              Submit
             </button>
           </div>
       </div>

@@ -42,7 +42,7 @@ const Login = () => {
 
   return (
     <div className={`${styles.container}`}>
-      <img src={logo} alt="logo" className={`${styles.logo} flex justify-center`}/>
+      <img onClick={() => (window.location.href = "/")} src={logo} style={{cursor: 'pointer'}} alt="logo" className={`${styles.logo} flex justify-center`}/>
 
       <div className={`${styles.login} p-4 rounded`}>
         <h2 className="mb-2 text-left text-white">Login</h2>
@@ -83,7 +83,7 @@ const Login = () => {
               </div>
             ) : (
             <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
-              Entrar
+              Start
           </button>
           )}
 
