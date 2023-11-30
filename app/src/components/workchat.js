@@ -192,6 +192,11 @@ const Workchat = () => {
               placeholder="message..."
               value={messageInput}
               onChange={(e) => setMessageInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  sendMessage();
+                }
+              }}
               className="w-full rounded focus:outline-none"
             />
             <button onClick={sendMessage} className="text-white px-4 py-2 ml-2 rounded">
