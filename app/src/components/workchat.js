@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import styles from '../styles/workchat_style.module.css';
 import perfil from '../images/perfil.jpg';
 import toggleMenu from '../js/menu_toogle';
-import io, { connect } from 'socket.io-client';
 import logo from '../images/questify.png';
-import useSocket from '../hooks/useSocket'; // Substitua pelo caminho correto
-
+import useSocket from '../hooks/useSocket';
 
 const Workchat = () => {
   const socket = useSocket();
@@ -19,6 +17,14 @@ const Workchat = () => {
   const [currentUserIsOnline, setCurrentUserIsOnline] = useState(false);
   const [myUser, setMyUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const messagesEndRef = useRef(null);
+
+  useLayoutEffect(() => {
+    if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
 
   useEffect(() => {
     socket.on('setMyUser', (user) => {
@@ -181,6 +187,7 @@ const Workchat = () => {
                   </div>
                 </li> 
             ))}
+            <div ref={messagesEndRef} />
           </ul>
         </div>
           <div className={`${styles.input_chat} bg-white p-4`}>
