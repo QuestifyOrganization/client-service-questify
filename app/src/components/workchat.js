@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styles from '../styles/workchat_style.module.css';
 import perfil from '../images/perfil.jpg';
 import toggleMenu from '../js/menu_toogle';
-import io from 'socket.io-client';
+import io, { connect } from 'socket.io-client';
 import logo from '../images/questify.png';
+import useSocket from '../hooks/useSocket'; // Substitua pelo caminho correto
 
-const socket = io(`${process.env.REACT_APP_API_CHAT_BASE_URL}`, {
-  auth: {
-    authToken: localStorage.getItem('authToken'),
-  },
-});
 
 const Workchat = () => {
+  const socket = useSocket();
+
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
@@ -23,7 +21,6 @@ const Workchat = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-
     socket.on('setMyUser', (user) => {
       setMyUser(user);
       socket.emit('findTalkedChatUsers');
@@ -78,7 +75,7 @@ const Workchat = () => {
 
   const sendMessage = () => {
     if (messageInput.trim() === '' || !currentUser) return;
-  
+
     socket.emit('message', {
       messageText: messageInput,
       recipientContentType: 'ChatUser',
