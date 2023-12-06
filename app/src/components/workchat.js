@@ -150,13 +150,14 @@ const Workchat = () => {
         </div>
       </div>
 
+      {currentUser ? (
       <div className="flex-1 flex flex-col">
         <div className={`${styles.contact_super} bg-white p-4 flex`}>
           <span onClick={toggleMenu} className="material-symbols-outlined">
             menu
           </span>
           <div className="flex items-center">
-            <h2 className="text-xl font-bold">{currentUser ? currentUser.name : "Select a contact"}</h2>
+            <h2 className="text-xl font-bold">{currentUser.name}</h2>
             <span className={`h-3 w-3 rounded-full inline-block mr-2 ${currentUserIsOnline ? 'bg-green-500' : 'bg-red-500'}`}></span>
           </div>
         </div>
@@ -190,24 +191,29 @@ const Workchat = () => {
             <div ref={messagesEndRef} />
           </ul>
         </div>
-          <div className={`${styles.input_chat} bg-white p-4`}>
-            <input
-              type="text"
-              placeholder="message..."
-              value={messageInput}
-              onChange={(e) => setMessageInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  sendMessage();
-                }
-              }}
-              className="w-full rounded focus:outline-none"
-            />
-            <button onClick={sendMessage} className="text-white px-4 py-2 ml-2 rounded">
-              Submit
-            </button>
-          </div>
-      </div>
+        <div className={`${styles.input_chat} bg-white p-4`}>
+          <input
+            type="text"
+            placeholder="message..."
+            value={messageInput}
+            onChange={(e) => setMessageInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                sendMessage();
+              }
+            }}
+            className="w-full rounded focus:outline-none"
+          />
+          <button onClick={sendMessage} className="text-white px-4 py-2 ml-2 rounded">
+            Submit
+          </button>
+        </div>
+      </div> ): (
+        <div className={`${styles.contact_super} flex-1 justify-center items-center`} >
+            <h2 className="text-xl font-bold">Select a contact</h2>
+        </div>
+      ) }
+
     </div>
   );
 };
