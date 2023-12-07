@@ -35,15 +35,19 @@ const Workchat = () => {
       setIsLoading(false);
     });
 
-    socket.on('message', (data) => {
-      const isSenderCurrentEntity = data?.senderId === currentChatEntity?._id;
-      const isDirectMessageToMe = data?.recipientContentType === 'ChatUser' && data?.recipientObjectId === myUser?._id;
-      const isSenderMyUser = data?.senderId === myUser?._id;
-      const isRecipientCurrentEntity = data?.recipientContentType === 'ChatGroup' && currentChatEntity?._id === data?.recipientObjectId;
+    socket.on('message', (message) => {
+      const isSenderCurrentEntity = message?.senderId === currentChatEntity?._id;
+      const isDirectMessageToMe = message?.recipientContentType === 'ChatUser' && message?.recipientObjectId === myUser?._id;
+      const isSenderMyUser = message?.senderId === myUser?._id;
+      const isRecipientCurrentEntity = message?.recipientContentType === 'ChatGroup' && currentChatEntity?._id === message?.recipientObjectId;
         
       console.log(isSenderCurrentEntity, isDirectMessageToMe, isSenderMyUser, isRecipientCurrentEntity)
+      console.log('Message:',message)
+      console.log('MyUser:', myUser)
+      console.log('currentChatEntity:', currentChatEntity)
+
       if (isSenderCurrentEntity || isDirectMessageToMe || isSenderMyUser || isRecipientCurrentEntity) {
-        setMessages((prevMessages) => [...prevMessages, data]);
+        setMessages((prevMessages) => [...prevMessages, message]);
       }
     
       if (!searchTerm) {
