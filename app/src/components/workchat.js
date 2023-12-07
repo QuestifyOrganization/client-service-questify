@@ -41,11 +41,6 @@ const Workchat = () => {
       const isSenderMyUser = message?.senderId === myUser?._id;
       const isRecipientCurrentEntity = message?.recipientContentType === 'ChatGroup' && currentChatEntity?._id === message?.recipientObjectId;
         
-      console.log(isSenderCurrentEntity, isDirectMessageToMe, isSenderMyUser, isRecipientCurrentEntity)
-      console.log('Message:',message)
-      console.log('MyUser:', myUser)
-      console.log('currentChatEntity:', currentChatEntity)
-
       if (isSenderCurrentEntity || isDirectMessageToMe || isSenderMyUser || isRecipientCurrentEntity) {
         setMessages((prevMessages) => [...prevMessages, message]);
       }
@@ -86,7 +81,7 @@ const Workchat = () => {
       socket.off('onlineChatUsersIds');
       socket.off('currentUserIsOnline');
     };
-  }, []);
+  }, [myUser, currentChatEntity]);
 
   const sendMessage = () => {
     if (messageInput.trim() === '' || !currentChatEntity) return;
