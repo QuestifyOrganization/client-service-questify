@@ -14,7 +14,6 @@ const Workchat = () => {
   const [messageInput, setMessageInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [foundChatEntities, setFoundChatEntities] = useState([]); 
-  const [foundMessages, setFoundMessages] = useState([]); 
   const [currentChatEntity, setCurrentChatEntity] = useState(null);
   const [currentUserIsOnline, setCurrentUserIsOnline] = useState(false);
   const [myUser, setMyUser] = useState(null);
@@ -41,12 +40,7 @@ const Workchat = () => {
       const isSenderMyUser = message?.senderId === myUser?._id;
       const isRecipientCurrentEntity = message?.recipientContentType === 'ChatGroup' && currentChatEntity?._id === message?.recipientObjectId;
         
-      console.log('isSenderCurrentEntity:', isSenderCurrentEntity)
-      console.log('isDirectMessageToMe:', isDirectMessageToMe)
-      console.log('isSenderMyUser:', isSenderMyUser)
-      console.log('isRecipientCurrentEntity:', isRecipientCurrentEntity)
-
-      if (isSenderCurrentEntity || isDirectMessageToMe || isSenderMyUser || isRecipientCurrentEntity) {
+      if (isSenderCurrentEntity && isDirectMessageToMe || isSenderMyUser || isRecipientCurrentEntity) {
         setMessages((prevMessages) => [...prevMessages, message]);
       }
     
@@ -73,7 +67,7 @@ const Workchat = () => {
     });
 
     socket.on('findMessages', (messages) => {
-      setFoundMessages(messages); 
+      console.log(messages)
       setMessages(messages); 
     });
 
@@ -108,7 +102,7 @@ const Workchat = () => {
   const openChat = (chatEntity) => {
     if (!currentChatEntity || chatEntity._id !== currentChatEntity._id) {
       socket.emit('currentUserIsOnline', chatEntity?._id);
-      socket.emit('findMessages', chatEntity)
+      socket.emit('findMessages', chatEntity);
       setMessages([]); 
       socket.emit('findTalkedChatUsers');
       setSearchTerm('');
