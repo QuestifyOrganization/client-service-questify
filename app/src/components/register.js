@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../styles/register_style.module.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import logo from '../images/questify.png';
+import Logo from './header_logo';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -40,8 +40,7 @@ const Register = () => {
 
   return (
     <div className={`${styles.container}`}>
-
-      <img onClick={() => (window.location.href = "/")} src={logo} alt="logo" style={{cursor: 'pointer'}} className={`${styles.logo} flex justify-center`}/>
+      <Logo />
 
       <div className={`${styles.login} p-4 rounded`}>
         <h2 className="mb-2 text-left text-white">Register</h2>
