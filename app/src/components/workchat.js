@@ -41,6 +41,11 @@ const Workchat = () => {
       const isSenderMyUser = message?.senderId === myUser?._id;
       const isRecipientCurrentEntity = message?.recipientContentType === 'ChatGroup' && currentChatEntity?._id === message?.recipientObjectId;
         
+      console.log('isSenderCurrentEntity:', isSenderCurrentEntity)
+      console.log('isDirectMessageToMe:', isDirectMessageToMe)
+      console.log('isSenderMyUser:', isSenderMyUser)
+      console.log('isRecipientCurrentEntity:', isRecipientCurrentEntity)
+
       if (isSenderCurrentEntity || isDirectMessageToMe || isSenderMyUser || isRecipientCurrentEntity) {
         setMessages((prevMessages) => [...prevMessages, message]);
       }
