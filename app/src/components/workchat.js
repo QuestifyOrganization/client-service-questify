@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import styles from '../styles/workchat_style.module.css';
-import perfil from '../images/perfil.jpg';
+import chatUserProfile from '../images/userProfile.jpg';
+import chatGroupProfile from '../images/groupProfile.jpeg';
 import toggleMenu from '../js/menu_toogle';
 import logo from '../images/questify.png';
 import useSocket from '../hooks/useSocket';
@@ -18,6 +19,7 @@ const Workchat = () => {
   const [currentUserIsOnline, setCurrentUserIsOnline] = useState(false);
   const [myUser, setMyUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [errorCreatingChatGroupMessage, setErrorCreatingChatGroupMessage] = useState('');
 
   const messagesEndRef = useRef(null);
 
@@ -71,6 +73,17 @@ const Workchat = () => {
       setMessages(messages); 
     });
 
+    socket.on('chatGroupCreated', (group) => {
+      setIsLoading(false); 
+      closeModal(); 
+
+    });
+
+    socket.on('errorCreatingChatGroup', (error) => {
+      setIsLoading(false); 
+      setErrorCreatingChatGroupMessage(error);
+    });
+
     return () => {
       socket.off('message');
       socket.off('findChatEntities'); 
@@ -79,8 +92,10 @@ const Workchat = () => {
       socket.off('setMyUser');
       socket.off('onlineChatUsersIds');
       socket.off('currentUserIsOnline');
+      socket.off('chatGroupCreated');
+      socket.off('errorCreatingChatGroup');
     };
-  }, [myUser, currentChatEntity]);
+  }, [myUser, currentChatEntity, errorCreatingChatGroupMessage]);
 
   const sendMessage = () => {
     if (messageInput.trim() === '' || !currentChatEntity) return;
@@ -111,11 +126,83 @@ const Workchat = () => {
   };
   
   const LoadingScreen = () => (
-    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="text-white">Loading...</div>
+    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="spinner"></div>
+  
+      <style>
+        {`
+          .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+          }
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
+    </div>
+  );
+  
+  const groupNameRef = useRef(null);
+  const groupDescriptionRef = useRef(null);
+  
+  const handleSubmitToCreateGroup = (e) => {
+    e.preventDefault(); 
+
+    const groupName = groupNameRef.current.value;
+    const groupDescription = groupDescriptionRef.current.value;
+
+    setIsLoading(true);
+    socket.emit('createChatGroup', { name: groupName, description: groupDescription });
+    setErrorCreatingChatGroupMessage('');
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const Modal = () => (
+    <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center">
+      <div className={`border p-5 ${styles.bg_dark} rounded-lg`}>
+        <form onSubmit={handleSubmitToCreateGroup}>
+          <h2 className="font-bold text-lg text-white mb-4">Create New Group</h2>
+          {errorCreatingChatGroupMessage && <div className="text-red-500 mb-4">{errorCreatingChatGroupMessage}</div>}
+          <input
+            type="text"
+            placeholder="Name"
+            ref={groupNameRef}
+            className="w-full p-2 mb-4 rounded bg-[#2B3CFD] text-white focus:outline-none"
+          />
+          <input
+            type="text"
+            placeholder="Short Description"
+            ref={groupDescriptionRef}
+            className="w-full p-2 mb-4 rounded bg-[#2B3CFD] text-white focus:outline-none"
+          />
+          <div className="flex justify-end">
+            <button type="button" onClick={closeModal} className="flex justify-center items-center text-white rounded ml-2" style={{ width: '40px', height: '40px', backgroundColor: '#2B3CFD' }}>
+              <span class="material-symbols-outlined">
+                cancel
+              </span>
+            </button>
+            <button type="submit" className="flex justify-center items-center text-white rounded ml-2" style={{ width: '40px', height: '40px', backgroundColor: '#2B3CFD' }}>
+              <span class="material-symbols-outlined">
+                add_circle
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 
+  
   return (
     <div className="flex h-screen bg-gray-100"> 
       {isLoading && <LoadingScreen />}
@@ -125,17 +212,32 @@ const Workchat = () => {
         </div>
         <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.082)' }} className="mb-4" />
         <ul className="">
+        <div className="flex items-center mb-4">
           <input
             type="text"
             placeholder="Search..."
             value={searchTerm}
             onChange={handleSearchChange}
-            className="w-full p-2 mb-4 rounded text-white focus:outline-none"
+            className="w-full p-2 rounded text-white focus:outline-none"
           />
-          {foundChatEntities.map((user) => (
-            <li key={user._id} className="flex items-center cursor-pointer" onClick={() => openChat(user)}>
-              <img src={perfil} alt={user.name} className="w-8 h-8 rounded-full mr-2" />
-              {user.name}
+      <button
+        onClick={openModal}
+        className="flex justify-center items-center text-white rounded ml-2"
+        style={{ width: '55px', height: '45px', backgroundColor: '#2B3CFD' }}
+      >
+        <span className="material-symbols-outlined">
+          group_add
+        </span>
+      </button>
+      
+      {isLoading && <LoadingScreen />}
+      {isModalOpen && <Modal />}
+        </div>
+
+          {foundChatEntities.map((chatEntity) => (
+            <li key={chatEntity._id} className="flex items-center cursor-pointer" onClick={() => openChat(chatEntity)}>
+              <img src={(chatEntity.contentType === 'ChatGroup'? chatGroupProfile: chatUserProfile)} alt={chatEntity.name} className="w-8 h-8 rounded-full mr-2" />
+              {chatEntity.name} - {chatEntity.contentType}
             </li>
           ))}
         </ul>
@@ -174,14 +276,14 @@ const Workchat = () => {
                     <p className="text-xs text-gray-500 opacity-75">{new Date(msg.sendDate).toLocaleString()}</p>
                   </div>
                   <img
-                    src={perfil}
+                    src={chatUserProfile}
                     alt="Imagem do remetente"
                     className="w-8 h-8 rounded-full ml-2"
                   />
                 </li> :
                 <li key={index} className={`${styles.message_chat} flex items-start mb-2`}>
                   <img
-                    src={perfil}
+                    src={chatUserProfile}
                     alt="Imagem do remetente"
                     className="w-8 h-8 rounded-full mr-2"
                   />

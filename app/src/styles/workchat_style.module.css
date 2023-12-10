@@ -111,6 +111,11 @@
   word-break: break-word; 
 }
 
+.bg_dark {
+    background-color: #121418;
+};
+
+
 @media (max-width: 687px) {
     .contact {
         display: none;
