@@ -237,7 +237,7 @@ const Workchat = () => {
           {foundChatEntities.map((chatEntity) => (
             <li key={chatEntity._id} className="flex items-center cursor-pointer" onClick={() => openChat(chatEntity)}>
               <img src={(chatEntity.contentType === 'ChatGroup'? chatGroupProfile: chatUserProfile)} alt={chatEntity.name} className="w-8 h-8 rounded-full mr-2" />
-              {chatEntity.name} - {chatEntity.contentType}
+              {chatEntity.name}
             </li>
           ))}
         </ul>
