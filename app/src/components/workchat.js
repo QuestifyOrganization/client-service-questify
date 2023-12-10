@@ -164,7 +164,10 @@ const Workchat = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = () => setIsModalOpen(true);
+  const openModal = () => {
+    setIsModalOpen(true);
+    setErrorCreatingChatGroupMessage('');
+  }
   const closeModal = () => setIsModalOpen(false);
 
   const Modal = () => (
@@ -201,8 +204,7 @@ const Workchat = () => {
       </div>
     </div>
   );
-
-  
+ 
   return (
     <div className="flex h-screen bg-gray-100"> 
       {isLoading && <LoadingScreen />}
@@ -290,7 +292,7 @@ const Workchat = () => {
                   <div className="text-white rounded-md">
                     <ConditionalSenderNameDisplay currentEntity={currentChatEntity} senderName={msg.senderName} />
                     <p>{msg.messageText}</p>
-                    <p className="text-xs text-gray-500 opacity-75">{new Date(msg.sendDate).toLocaleString()}</p>
+                    <p className="text-xs text-gray-500">{new Date(msg.sendDate).toLocaleString()}</p>
                   </div>
                 </li> 
             ))}
