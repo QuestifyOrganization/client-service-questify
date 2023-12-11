@@ -190,6 +190,7 @@ const Workchat = () => {
         <div className="flex justify-center items-center mb-4">
           <img onClick={() => (window.location.href = "/")} src={logo} alt="logo" className={`${styles.logo} h-10 ml-2 p-2 mt-4`}/>
         </div>
+        
         <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.082)' }} className="mb-4" />
         <div className={`${styles.search} flex items-center mb-4`}>
           <input
@@ -199,18 +200,18 @@ const Workchat = () => {
             onChange={handleSearchChange}
             className="p-2 rounded text-white focus:outline-none"
           />
-        <button
-          onClick={openModal}
-          className="flex justify-center items-center text-white rounded ml-2"
-          style={{backgroundColor: '#2B3CFD' }}
-        >
-          <span className="material-symbols-outlined">
-            group_add
-          </span>
-        </button>      
-      {isLoading && <LoadingScreen />}
-      {isModalOpen && <Modal />}
+          <button
+            onClick={openModal}
+            className="flex justify-center items-center text-white rounded ml-2"
+            style={{backgroundColor: '#2B3CFD' }}
+          >
+            <span className="material-symbols-outlined">
+              group_add
+            </span>
+          </button>      
+          {isModalOpen && <Modal />}
         </div>
+
         <ul className="">
           {foundChatEntities.map((chatEntity) => (
             <li key={chatEntity._id} className="flex items-center cursor-pointer" onClick={() => openChat(chatEntity)}>
