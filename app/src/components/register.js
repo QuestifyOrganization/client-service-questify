@@ -35,7 +35,7 @@ const Register = () => {
 
       setTimeout(() => {
         navigate('/login');
-      }, 1000);
+      }, 2500);
     } catch (error) {
       console.error('Erro ao criar usuário', error);
       setError('User create error. Please, try again!');
@@ -43,7 +43,7 @@ const Register = () => {
 
       setTimeout(() => {
         setError('');
-      }, 1500);
+      }, 2500);
     } finally {
       setIsLoading(false);
     }
