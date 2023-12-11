@@ -4,7 +4,7 @@ import styles from '../styles/login_style.module.css';
 import axios from 'axios';
 import Logo from './header_logo';
 import Popup from './popup';
-
+import LoadingScreen from './loadingScreenComponent';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -82,9 +82,7 @@ const Login = () => {
             <Popup message={successMessage || error} type={successMessage ? 'success' : 'error'} />
           ) : (
             isLoading ? (
-              <button className={` ${styles.button_login} w-full py-2 px-4 rounded-md`} disabled>
-                Loading...
-              </button>
+              <LoadingScreen />
             ) : (
               <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
                 Start

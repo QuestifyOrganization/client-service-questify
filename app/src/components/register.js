@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Logo from './header_logo';
 import Popup from './popup';
+import LoadingScreen from './loadingScreenComponent';
+
 
 const Register = () => {
   const navigate = useNavigate();
@@ -94,9 +96,7 @@ const Register = () => {
               <Popup message={successMessage || error} type={successMessage ? 'success' : 'error'} />
             ) : (
               isLoading ? (
-                <button className={` ${styles.button_login} w-full py-2 px-4 rounded-md`} disabled>
-                  Loading...
-                </button>
+                <LoadingScreen />
               ) : (
               <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
                 Register
