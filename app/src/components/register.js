@@ -1,3 +1,4 @@
+// Importe useState e useEffect do React
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/register_style.module.css';
 import axios from 'axios';
@@ -5,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import Logo from './header_logo';
 import Popup from './popup';
 import LoadingScreen from './loadingScreenComponent';
-
 
 const Register = () => {
   const navigate = useNavigate();
@@ -19,6 +19,43 @@ const Register = () => {
   const [successMessage, setSuccessMessage] = useState(null);
   const [error, setError] = useState(null);
 
+  // Adicione um novo estado para controlar se o login automático deve ser feito
+  const [autoLogin, setAutoLogin] = useState(false);
+
+  useEffect(() => {
+    // Se autoLogin for verdadeiro, realize o login e redirecione para '/workchat'
+    if (autoLogin) {
+      const doAutoLogin = async () => {
+        try {
+          const response = await axios.post(`${process.env.REACT_APP_API_AUTH_BASE_URL}/api/auth/sign-in`, {
+            username: formData.username,
+            password: formData.password,
+          });
+
+          localStorage.setItem('authToken', response.data.token);
+
+          setSuccessMessage('User created successfully! Logging in...');
+
+          setTimeout(() => {
+            navigate('/workchat');
+          }, 2500);
+        } catch (error) {
+          console.error('Erro ao realizar login após registro', error);
+          setError('Login error. Please try again.');
+          setSuccessMessage('');
+
+          setTimeout(() => {
+            setError('');
+          }, 2500);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      doAutoLogin();
+    }
+  }, [autoLogin, formData.username, formData.password, navigate]);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -31,14 +68,14 @@ const Register = () => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_AUTH_BASE_URL}/api/user/create`, formData);
 
-      setSuccessMessage('Sucess! Redirectin for login page...');
+      setSuccessMessage('User created successfully! Redirecting to login page...');
+      setError('');
 
-      setTimeout(() => {
-        navigate('/login');
-      }, 2500);
+      // Configurar o autoLogin para true após o sucesso do registro
+      setAutoLogin(true);
     } catch (error) {
       console.error('Erro ao criar usuário', error);
-      setError('User create error. Please, try again!');
+      setError('User create error. Please try again.');
       setSuccessMessage('');
 
       setTimeout(() => {
@@ -56,59 +93,59 @@ const Register = () => {
       <div className={`${styles.login} p-4 rounded`}>
         <h2 className="mb-2 text-left text-white">Register</h2>
 
-          <form onSubmit={handleSubmit} method="post">
-            <div className="mb-4">
-              <input
-                type="text"
-                name="username"
-                id="username"
-                value={formData.username}
-                onChange={handleChange}
-                className="w-full px-4 py-2 rounded-md focus:outline-none"
-                placeholder="Enter your username"
-              />
-            </div>
+        <form onSubmit={handleSubmit} method="post">
+          <div className="mb-4">
+            <input
+              type="text"
+              name="username"
+              id="username"
+              value={formData.username}
+              onChange={handleChange}
+              className="w-full px-4 py-2 rounded-md focus:outline-none"
+              placeholder="Enter your username"
+            />
+          </div>
 
-            <div className="mb-4">
-              <input
-                type="text"
-                name="name"
-                id="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full px-4 py-2 rounded-md focus:outline-none"
-                placeholder="Enter your name"
-              />
-            </div>
+          <div className="mb-4">
+            <input
+              type="text"
+              name="name"
+              id="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full px-4 py-2 rounded-md focus:outline-none"
+              placeholder="Enter your name"
+            />
+          </div>
 
-            <div className="mb-4">
-              <input
-                type="password"
-                name="password"
-                id="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full px-4 py-2 rounded-md focus:outline-none"
-                placeholder="Enter your password"
-              />
-            </div>
-            {successMessage && (
+          <div className="mb-4">
+            <input
+              type="password"
+              name="password"
+              id="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full px-4 py-2 rounded-md focus:outline-none"
+              placeholder="Enter your password"
+            />
+          </div>
+
+          {successMessage && (
             <Popup message={successMessage} type="success" />
-            )}
-            {error && (
-              <Popup message={error} type="error" />
-            )}
-            {!successMessage && !error && (
-              isLoading ? (
-                <LoadingScreen />
-              ) : (
-                <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
-                  Register
-                </button>
-              )
-            )}
-
-          </form>
+          )}
+          {error && (
+            <Popup message={error} type="error" />
+          )}
+          {!successMessage && !error && (
+            isLoading ? (
+              <LoadingScreen />
+            ) : (
+              <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
+                Register
+              </button>
+            )
+          )}
+        </form>
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ const Home = () => {
         <div className="text-left">
           <h1 className="font-bold">The Future of workchat...</h1>
           <p className="text-white mb-2">Connect with coworkers easily and efficiently.</p>
-          <button onClick={() => (window.location.href = "/login")} className="text-white px-6 py-3 rounded">Sign-up</button>
+          <button onClick={() => (window.location.href = "/register")} className="text-white px-6 py-3 rounded">Sign-up</button>
         </div>
       </div>
       
