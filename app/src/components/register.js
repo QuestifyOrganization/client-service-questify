@@ -33,9 +33,8 @@ const Register = () => {
 
       setSuccessMessage('Sucess! Redirectin for login page...');
 
-      setTimeout(() => {
-        navigate('/login');
-      }, 2500);
+      navigate('/login');
+      
     } catch (error) {
       console.error('Erro ao criar usuário', error);
       setError('User create error. Please, try again!');

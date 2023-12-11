@@ -29,9 +29,8 @@ const Login = () => {
       setSuccessMessage('Login successful! Redirecting to Work Chat...');
       setError('');
 
-      setTimeout(() => {
-        navigate('/workchat');
-      }, 2500);
+      navigate('/workchat');
+
     } catch (error) {
       console.error('Erro ao realizar login', error);
 
