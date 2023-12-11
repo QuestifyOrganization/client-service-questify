@@ -13,11 +13,17 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.082);
 }
 
+.logo {
+    width: 11vw;
+    height: auto;
+    cursor: pointer;
+}
+
 .contact ul {
     display: flex;
     flex-direction: column;
     cursor: pointer;
-    max-height: 750px;
+    height: 750px;
     overflow: auto;
 }
 
@@ -29,6 +35,7 @@ body {
 
 .search button {
     width: 3rem;
+    height: 3rem;
 }
 
 .menu {
@@ -154,7 +161,6 @@ body {
 
 @media (max-width: 687px) {
     .contact {
-        /* display: none; */
         width: 15rem;
         height: 100vh;
         flex-direction: column;
@@ -176,7 +182,14 @@ body {
     }
 
     .search button {
-        width: 6rem;
+        width: 7rem;
+        height: 3rem;
+    }
+
+    .logo {
+        width: 40vw;
+        height: auto;
+        cursor: pointer;
     }
 
 }
@@ -194,7 +207,14 @@ body {
     }
     
     .search button {
-        width: 6rem;
+        width: 7rem;
+        height: 3rem;
+    }
+
+    .logo {
+        width: 40vw;
+        height: auto;
+        cursor: pointer;
     }
 }
 
@@ -211,5 +231,20 @@ body {
 
     .search button {
         width: 7rem;
+        height: 3rem;
+    }
+
+    .logo {
+        width: 40vw;
+        height: auto;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 1500px) {
+    .search button {
+        width: 7rem;
+        height: 3rem;
+        border-radius: 6px;
     }
 }

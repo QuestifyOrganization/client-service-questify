@@ -3,9 +3,11 @@ import styles from '../styles/register_style.module.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Logo from './header_logo';
+import Popup from './popup';
 
 const Register = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     name: '',
@@ -22,19 +24,26 @@ const Register = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
 
     try {
-      console.log(`${process.env.REACT_APP_API_AUTH_BASE_URL}/api/user/create`)
       const response = await axios.post(`${process.env.REACT_APP_API_AUTH_BASE_URL}/api/user/create`, formData);
 
       setSuccessMessage('Sucess! Redirectin for login page...');
 
       setTimeout(() => {
         navigate('/login');
-      }, 2000);
+      }, 2500);
     } catch (error) {
       console.error('Erro ao criar usuário', error);
       setError('User create error. Please, try again!');
+      setSuccessMessage('');
+
+      setTimeout(() => {
+        setError('');
+      }, 2500);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -45,15 +54,6 @@ const Register = () => {
       <div className={`${styles.login} p-4 rounded`}>
         <h2 className="mb-2 text-left text-white">Register</h2>
 
-        {successMessage ? (
-          <div className="mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-6 rounded-md">
-            {successMessage}
-          </div>
-        ) : error ? (
-            <div className="mb-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-2 rounded-md">
-              {error}
-            </div>
-          ) : (
           <form onSubmit={handleSubmit} method="post">
             <div className="mb-4">
               <input
@@ -90,12 +90,20 @@ const Register = () => {
                 placeholder="Enter your password"
               />
             </div>
-
-            <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
-              Register
-            </button>
+            {successMessage || error ? (
+              <Popup message={successMessage || error} type={successMessage ? 'success' : 'error'} />
+            ) : (
+              isLoading ? (
+                <button className={` ${styles.button_login} w-full py-2 px-4 rounded-md`} disabled>
+                  Loading...
+                </button>
+              ) : (
+              <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
+                Register
+              </button>
+            )
+            )}
           </form>
-        )}
       </div>
     </div>
   );

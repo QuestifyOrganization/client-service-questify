@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../styles/login_style.module.css';
 import axios from 'axios';
 import Logo from './header_logo';
+import Popup from './popup';
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -10,9 +12,11 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_AUTH_BASE_URL}/api/auth/sign-in`, {
@@ -26,8 +30,8 @@ const Login = () => {
       setError('');
 
       setTimeout(() => {
-        navigate('/workchat')
-      }, 1500);
+        navigate('/workchat');
+      }, 2500);
     } catch (error) {
       console.error('Erro ao realizar login', error);
 
@@ -36,9 +40,11 @@ const Login = () => {
 
       setTimeout(() => {
         setError('');
-      }, 1500);
-    }
-  };
+      }, 2500);
+      } finally {
+          setIsLoading(false);
+      }
+    };
 
   return (
     <div className={`${styles.container}`}>
@@ -72,22 +78,21 @@ const Login = () => {
             />
           </div>
 
-          {
-            successMessage ? (
-              <div className="mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-2 rounded-md">
-                {successMessage}
-              </div>
-            ) : error ? (
-              <div className="mb-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-2 rounded-md">
-                {error}
-              </div>
+          {successMessage || error ? (
+            <Popup message={successMessage || error} type={successMessage ? 'success' : 'error'} />
+          ) : (
+            isLoading ? (
+              <button className={` ${styles.button_login} w-full py-2 px-4 rounded-md`} disabled>
+                Loading...
+              </button>
             ) : (
-            <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
-              Start
-          </button>
+              <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
+                Start
+              </button>
+            )
           )}
 
-        </form>
+          </form>
       </div>
 
       <div className={`${styles.footer} mt-12`}>

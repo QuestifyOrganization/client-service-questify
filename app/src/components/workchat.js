@@ -210,7 +210,7 @@ const Workchat = () => {
       {isLoading && <LoadingScreen />}
       <div className={`${styles.contact} ${styles.menu} w-1/6 bg-gray-800 text-white p-4 flex flex-col`}>
         <div className="flex justify-center items-center mb-4">
-          <img onClick={() => (window.location.href = "/")} src={logo} alt="logo" style={{ width: '80%', height: '80%', cursor: 'pointer'}} className="h-10 ml-2 p-2 mt-4"/>
+          <img onClick={() => (window.location.href = "/")} src={logo} alt="logo" className={`${styles.logo} h-10 ml-2 p-2 mt-4`}/>
         </div>
         <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.082)' }} className="mb-4" />
         <div className={`${styles.search} flex items-center mb-4`}>
@@ -224,7 +224,7 @@ const Workchat = () => {
         <button
           onClick={openModal}
           className="flex justify-center items-center text-white rounded ml-2"
-          style={{ height: '45px', backgroundColor: '#2B3CFD' }}
+          style={{backgroundColor: '#2B3CFD' }}
         >
           <span className="material-symbols-outlined">
             group_add

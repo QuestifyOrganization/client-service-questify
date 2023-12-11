@@ -1,0 +1,11 @@
+.popup {
+    width: 93.3vw;
+    height: 18rem;
+    text-align: center;
+    position: absolute;
+    bottom: 31%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
