@@ -81,6 +81,10 @@ const Login = () => {
                 />
               </div>
 
+              <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
+                  Start
+              </button>
+
               {error && (
                 <div>
                   <p>{error}</p>
@@ -92,9 +96,7 @@ const Login = () => {
                 </div>
               )}
               {!error && !isLoading && (
-                <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
-                  Start
-                </button>
+                <div></div>
               )}
             </form>
           </div>

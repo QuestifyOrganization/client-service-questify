@@ -130,6 +130,10 @@ const Register = () => {
                 />
               </div>
 
+              <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
+                  Register
+              </button>
+
               {error && (
                 <Popup message={error} type="error" />
               )}
@@ -137,9 +141,7 @@ const Register = () => {
                 <LoadingScreen />
               )}
               {!error && !isLoading && (
-                <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
-                  Register
-                </button>
+                <div></div>
               )}
             </form>
           </div>
