@@ -208,34 +208,32 @@ const Workchat = () => {
   return (
     <div className="flex h-screen bg-gray-100"> 
       {isLoading && <LoadingScreen />}
-      <div className={`${styles.contact} w-1/6 bg-gray-800 text-white p-4 flex flex-col`}>
+      <div className={`${styles.contact} ${styles.menu} w-1/6 bg-gray-800 text-white p-4 flex flex-col`}>
         <div className="flex justify-center items-center mb-4">
           <img onClick={() => (window.location.href = "/")} src={logo} alt="logo" style={{ width: '80%', height: '80%', cursor: 'pointer'}} className="h-10 ml-2 p-2 mt-4"/>
         </div>
         <hr style={{ borderTop: '1px solid rgba(255, 255, 255, 0.082)' }} className="mb-4" />
-        <ul className="">
-        <div className="flex items-center mb-4">
+        <div className={`${styles.search} flex items-center mb-4`}>
           <input
             type="text"
             placeholder="Search..."
             value={searchTerm}
             onChange={handleSearchChange}
-            className="w-full p-2 rounded text-white focus:outline-none"
+            className="p-2 rounded text-white focus:outline-none"
           />
-      <button
-        onClick={openModal}
-        className="flex justify-center items-center text-white rounded ml-2"
-        style={{ width: '55px', height: '45px', backgroundColor: '#2B3CFD' }}
-      >
-        <span className="material-symbols-outlined">
-          group_add
-        </span>
-      </button>
-      
+        <button
+          onClick={openModal}
+          className="flex justify-center items-center text-white rounded ml-2"
+          style={{ height: '45px', backgroundColor: '#2B3CFD' }}
+        >
+          <span className="material-symbols-outlined">
+            group_add
+          </span>
+        </button>      
       {isLoading && <LoadingScreen />}
       {isModalOpen && <Modal />}
         </div>
-
+        <ul className="">
           {foundChatEntities.map((chatEntity) => (
             <li key={chatEntity._id} className="flex items-center cursor-pointer" onClick={() => openChat(chatEntity)}>
               <img src={(chatEntity.contentType === 'ChatGroup'? chatGroupProfile: chatUserProfile)} alt={chatEntity.name} className="w-8 h-8 rounded-full mr-2" />
