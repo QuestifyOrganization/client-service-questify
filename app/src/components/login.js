@@ -92,7 +92,6 @@ const Login = () => {
               )}
               {!error && isLoading && (
                 <div>
-                  <p>Loading...</p>
                 </div>
               )}
               {!error && !isLoading && (
