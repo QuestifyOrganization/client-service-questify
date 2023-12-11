@@ -1,25 +1,22 @@
-// Logout.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Logout = () => {
+const LoginSuccess = () => {
   const navigate = useNavigate();
-  const [message, setMessage] = useState('Logging out...');
+  const [message, setMessage] = useState('Login successful! Redirecting to Work Chat...');
 
   useEffect(() => {
-    // Atualiza a mensagem após 1 segundo
     const timeout = setTimeout(() => {
-      setMessage('Redirecting to login...');
+      setMessage('Redirecting to Work Chat...');
     }, 1000);
 
-    const logoutTimeout = setTimeout(() => {
-      localStorage.removeItem('authToken');
-      navigate('/');
+    const redirectTimeout = setTimeout(() => {
+      navigate('/workchat');
     }, 3000);
 
     return () => {
       clearTimeout(timeout);
-      clearTimeout(logoutTimeout);
+      clearTimeout(redirectTimeout);
     };
   }, [navigate]);
 
@@ -34,4 +31,4 @@ const Logout = () => {
   );
 };
 
-export default Logout;
+export default LoginSuccess;

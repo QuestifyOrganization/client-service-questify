@@ -1,4 +1,3 @@
-// Importe useState e useEffect do React
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/register_style.module.css';
 import axios from 'axios';
@@ -6,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Logo from './header_logo';
 import Popup from './popup';
 import LoadingScreen from './loadingScreenComponent';
+import LoginSuccess from './loginSucess';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -18,12 +18,9 @@ const Register = () => {
 
   const [successMessage, setSuccessMessage] = useState(null);
   const [error, setError] = useState(null);
-
-  // Adicione um novo estado para controlar se o login automático deve ser feito
   const [autoLogin, setAutoLogin] = useState(false);
 
   useEffect(() => {
-    // Se autoLogin for verdadeiro, realize o login e redirecione para '/workchat'
     if (autoLogin) {
       const doAutoLogin = async () => {
         try {
@@ -40,7 +37,7 @@ const Register = () => {
             navigate('/workchat');
           }, 2500);
         } catch (error) {
-          console.error('Erro ao realizar login após registro', error);
+          console.error('Error logging in after registration', error);
           setError('Login error. Please try again.');
           setSuccessMessage('');
 
@@ -71,10 +68,9 @@ const Register = () => {
       setSuccessMessage('User created successfully! Redirecting to login page...');
       setError('');
 
-      // Configurar o autoLogin para true após o sucesso do registro
       setAutoLogin(true);
     } catch (error) {
-      console.error('Erro ao criar usuário', error);
+      console.error('Error creating user', error);
       setError('User create error. Please try again.');
       setSuccessMessage('');
 
@@ -87,67 +83,69 @@ const Register = () => {
   };
 
   return (
-    <div className={`${styles.container}`}>
-      <Logo />
+    <>
+      {successMessage && <LoginSuccess />} {/* Renderiza LoginSuccess se houver uma mensagem de sucesso */}
 
-      <div className={`${styles.login} p-4 rounded`}>
-        <h2 className="mb-2 text-left text-white">Register</h2>
+      {!successMessage && (
+        <div className={`${styles.container}`}>
+          <Logo />
 
-        <form onSubmit={handleSubmit} method="post">
-          <div className="mb-4">
-            <input
-              type="text"
-              name="username"
-              id="username"
-              value={formData.username}
-              onChange={handleChange}
-              className="w-full px-4 py-2 rounded-md focus:outline-none"
-              placeholder="Enter your username"
-            />
+          <div className={`${styles.login} p-4 rounded`}>
+            <h2 className="mb-2 text-left text-white">Register</h2>
+
+            <form onSubmit={handleSubmit} method="post">
+              <div className="mb-4">
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 rounded-md focus:outline-none"
+                  placeholder="Enter your username"
+                />
+              </div>
+
+              <div className="mb-4">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 rounded-md focus:outline-none"
+                  placeholder="Enter your name"
+                />
+              </div>
+
+              <div className="mb-4">
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 rounded-md focus:outline-none"
+                  placeholder="Enter your password"
+                />
+              </div>
+
+              {error && (
+                <Popup message={error} type="error" />
+              )}
+              {!error && isLoading && (
+                <LoadingScreen />
+              )}
+              {!error && !isLoading && (
+                <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
+                  Register
+                </button>
+              )}
+            </form>
           </div>
-
-          <div className="mb-4">
-            <input
-              type="text"
-              name="name"
-              id="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full px-4 py-2 rounded-md focus:outline-none"
-              placeholder="Enter your name"
-            />
-          </div>
-
-          <div className="mb-4">
-            <input
-              type="password"
-              name="password"
-              id="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full px-4 py-2 rounded-md focus:outline-none"
-              placeholder="Enter your password"
-            />
-          </div>
-
-          {successMessage && (
-            <Popup message={successMessage} type="success" />
-          )}
-          {error && (
-            <Popup message={error} type="error" />
-          )}
-          {!successMessage && !error && (
-            isLoading ? (
-              <LoadingScreen />
-            ) : (
-              <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
-                Register
-              </button>
-            )
-          )}
-        </form>
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 
