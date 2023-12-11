@@ -33,8 +33,8 @@ body {
 }
 
 .search button {
-    width: 3rem;
-    height: 3rem;
+    width: 50px;
+    height: 100%;
 }
 
 .menu {
@@ -182,7 +182,7 @@ body {
 
     .search button {
         width: 7rem;
-        height: 3rem;
+        height: 100%;
     }
 
     .logo {
@@ -206,8 +206,8 @@ body {
     }
     
     .search button {
-        width: 7rem;
-        height: 3rem;
+        width: 12rem;
+        height: 100%;
     }
 
     .logo {
@@ -229,8 +229,8 @@ body {
     }
 
     .search button {
-        width: 7rem;
-        height: 3rem;
+        width: 12rem;
+        height: 100%;
     }
 
     .logo {
@@ -243,7 +243,7 @@ body {
 @media (max-width: 1500px) {
     .search button {
         width: 7rem;
-        height: 3rem;
+        height: 100%;
         border-radius: 6px;
     }
 }
