@@ -33,8 +33,9 @@ const Register = () => {
 
       setSuccessMessage('Sucess! Redirectin for login page...');
 
-      navigate('/login');
-      
+      setTimeout(() => {
+        navigate('/login');
+      }, 1000);
     } catch (error) {
       console.error('Erro ao criar usuário', error);
       setError('User create error. Please, try again!');
@@ -42,7 +43,7 @@ const Register = () => {
 
       setTimeout(() => {
         setError('');
-      }, 2500);
+      }, 1500);
     } finally {
       setIsLoading(false);
     }
@@ -91,17 +92,22 @@ const Register = () => {
                 placeholder="Enter your password"
               />
             </div>
-            {successMessage || error ? (
-              <Popup message={successMessage || error} type={successMessage ? 'success' : 'error'} />
-            ) : (
+            {successMessage && (
+            <Popup message={successMessage} type="success" />
+            )}
+            {error && (
+              <Popup message={error} type="error" />
+            )}
+            {!successMessage && !error && (
               isLoading ? (
                 <LoadingScreen />
               ) : (
-              <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
-                Register
-              </button>
-            )
+                <button type="submit" className={` ${styles.button_login} w-full py-2 px-4 rounded-md`}>
+                  Register
+                </button>
+              )
             )}
+
           </form>
       </div>
     </div>

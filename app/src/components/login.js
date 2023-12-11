@@ -29,8 +29,9 @@ const Login = () => {
       setSuccessMessage('Login successful! Redirecting to Work Chat...');
       setError('');
 
-      navigate('/workchat');
-
+      setTimeout(() => {
+        navigate('/workchat');
+      }, 1000);
     } catch (error) {
       console.error('Erro ao realizar login', error);
 
@@ -39,7 +40,7 @@ const Login = () => {
 
       setTimeout(() => {
         setError('');
-      }, 2500);
+      }, 1500);
       } finally {
           setIsLoading(false);
       }
@@ -77,9 +78,13 @@ const Login = () => {
             />
           </div>
 
-          {successMessage || error ? (
-            <Popup message={successMessage || error} type={successMessage ? 'success' : 'error'} />
-          ) : (
+          {successMessage && (
+            <Popup message={successMessage} type="success" />
+          )}
+          {error && (
+            <Popup message={error} type="error" />
+          )}
+          {!successMessage && !error && (
             isLoading ? (
               <LoadingScreen />
             ) : (
@@ -88,7 +93,6 @@ const Login = () => {
               </button>
             )
           )}
-
           </form>
       </div>
 
